@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Time Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="page">
+
+        <header class="top-area">
+            <div class="title-box">
+                <h1>Reaction Time Tester</h1>
+                <p>Click as fast as you can when the box changes color.</p>
+            </div>
+        </header>
+
+        <main class="main-layout">
+
+            <section class="game-card">
+
+                <div class="game-heading">
+                    <h2>Test Your Speed</h2>
+                    <span id="gameStatus">Not started</span>
+                </div>
+
+                <div class="reaction-box" id="reactionBox">
+                    <h3 id="boxTitle">Ready?</h3>
+                    <p id="boxMessage">Press start and wait for the signal.</p>
+                </div>
+
+                <div class="button-row">
+                    <button id="startBtn">Start Test</button>
+                    <button id="resetBtn">Reset</button>
+                </div>
+
+            </section>
+
+            <section class="stats-card">
+
+                <h2>Your Results</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Latest Time</span>
+                        <strong id="latestTime">-- ms</strong>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="stat-label">Best Time</span>
+                        <strong id="bestTime">-- ms</strong>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="stat-label">Attempts</span>
+                        <strong id="attemptCount">0</strong>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="stat-label">Average</span>
+                        <strong id="averageTime">-- ms</strong>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="info-card">
+
+                <h2>How It Works</h2>
+
+                <div class="info-list">
+                    <div class="info-item">
+                        <span>1</span>
+                        <p>Click the start button to begin the test.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span>2</span>
+                        <p>Wait until the box changes color.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span>3</span>
+                        <p>Click the box as quickly as possible.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span>4</span>
+                        <p>Your reaction time will appear in milliseconds.</p>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
