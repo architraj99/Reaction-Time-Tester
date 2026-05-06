@@ -40,7 +40,7 @@ function setBoxError() {
 function resetScreenText() {
     gameStatus.innerText = "Not Started";
     boxTitle.innerText = "Ready?";
-    boxMessage.innerText = "Press Start and wait for thec signal";
+    boxMessage.innerText = "Press Start and wait for the signal";
 }
 
 function clearRunningTimer() {
@@ -48,6 +48,12 @@ function clearRunningTimer() {
         clearTimeout(timerId);
         timerId = null;
     }
+}
+
+function getRandomDelay() {
+    let min = 2000;
+    let max = 5000;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function prepareGame() {
@@ -64,6 +70,12 @@ function prepareGame() {
     boxMessage.innerText = "Do not click yet. Wait until the box turns green";
 
     setBoxWaiting();
+
+    let delay = getRandomDelay();
+
+    timerId = setTimeout(function() {
+        makeReadyState();
+    }, delay);
 }
 
 function makeReadyState() {
@@ -100,8 +112,10 @@ function handleValidClick() {
     canClick = false;
 
     gameStatus.innerText = "Finished";
-    boxTitle.innerText = "Done";
-    boxMessage.innerText = "Your reaction time will be calculated in the next commit";
+    boxTitle.innerText = "Result";
+    boxMessage.innerText = reactionTime + "ms";
+
+    latestTime.innerText = reactionTime + "ms";
 
     setBoxNormal();
 }
@@ -127,9 +141,6 @@ function fullReset() {
 startBtn.onclick = function () {
     prepareGame();
 
-    timerId = setTimeout(function () {
-        makeReadyState();
-    }, 2500);
 };
 
 resetBtn.onclick = function () {
