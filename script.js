@@ -17,6 +17,10 @@ let timerId = null;
 let startTime = 0;
 let endTime = 0;
 
+let totalAttempts = 0;
+let bestScore = null;
+let allScores = [];
+
 function setBoxNormal() {
     reactionBox.style.background = "#dbe4f0";
     reactionBox.style.borderColor = "#c9d4e5";
@@ -40,7 +44,7 @@ function setBoxError() {
 function resetScreenText() {
     gameStatus.innerText = "Not Started";
     boxTitle.innerText = "Ready?";
-    boxMessage.innerText = "Press Start and wait for the signal";
+    boxMessage.innerText = "Press start and wait for the signal.";
 }
 
 function clearRunningTimer() {
@@ -53,7 +57,42 @@ function clearRunningTimer() {
 function getRandomDelay() {
     let min = 2000;
     let max = 5000;
+
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function calculateAverageScore() {
+    if (allScores.length === 0) {
+        return 0;
+    }
+
+    let total = 0;
+
+    for (let i = 0; i < allScores.length; i++) {
+        total += allScores[i];
+    }
+
+    return Math.floor(total / allScores.length);
+}
+
+function updateScoreBoard(reactionTime) {
+    totalAttempts++;
+
+    allScores.push(reactionTime);
+
+    latestTime.innerText = reactionTime + " ms";
+
+    attemptCount.innerText = totalAttempts;
+
+    if (bestScore === null || reactionTime < bestScore) {
+        bestScore = reactionTime;
+    }
+
+    bestTime.innerText = bestScore + " ms";
+
+    let average = calculateAverageScore();
+
+    averageTime.innerText = average + " ms";
 }
 
 function prepareGame() {
@@ -62,30 +101,37 @@ function prepareGame() {
     gameStarted = true;
     waitingForGreen = true;
     canClick = false;
+
     startTime = 0;
     endTime = 0;
 
     gameStatus.innerText = "Waiting";
+
     boxTitle.innerText = "Wait...";
-    boxMessage.innerText = "Do not click yet. Wait until the box turns green";
+
+    boxMessage.innerText = "Do not click yet. Wait until the box turns green.";
 
     setBoxWaiting();
 
     let delay = getRandomDelay();
 
-    timerId = setTimeout(function() {
+    timerId = setTimeout(function () {
         makeReadyState();
     }, delay);
 }
 
 function makeReadyState() {
     waitingForGreen = false;
+
     canClick = true;
+
     startTime = Date.now();
 
     gameStatus.innerText = "Click Now";
+
     boxTitle.innerText = "CLICK!";
-    boxMessage.innerText = "Click the box as fast as possible";
+
+    boxMessage.innerText = "Click the box as fast as possible.";
 
     setBoxReady();
 }
@@ -98,8 +144,10 @@ function handleEarlyClick() {
     canClick = false;
 
     gameStatus.innerText = "Too Early";
+
     boxTitle.innerText = "Too Early!";
-    boxMessage.innerText = "You clicked before the signal. Press start to try again";
+
+    boxMessage.innerText = "You clicked before the signal. Press start to try again.";
 
     setBoxError();
 }
@@ -107,15 +155,19 @@ function handleEarlyClick() {
 function handleValidClick() {
     endTime = Date.now();
 
+    let reactionTime = endTime - startTime;
+
     gameStarted = false;
     waitingForGreen = false;
     canClick = false;
 
     gameStatus.innerText = "Finished";
-    boxTitle.innerText = "Result";
-    boxMessage.innerText = reactionTime + "ms";
 
-    latestTime.innerText = reactionTime + "ms";
+    boxTitle.innerText = "Result";
+
+    boxMessage.innerText = reactionTime + " ms";
+
+    updateScoreBoard(reactionTime);
 
     setBoxNormal();
 }
@@ -126,21 +178,29 @@ function fullReset() {
     gameStarted = false;
     waitingForGreen = false;
     canClick = false;
+
     startTime = 0;
     endTime = 0;
 
+    totalAttempts = 0;
+    bestScore = null;
+    allScores = [];
+
     resetScreenText();
+
     setBoxNormal();
 
     latestTime.innerText = "-- ms";
+
     bestTime.innerText = "-- ms";
+
     attemptCount.innerText = "0";
+
     averageTime.innerText = "-- ms";
 }
 
 startBtn.onclick = function () {
     prepareGame();
-
 };
 
 resetBtn.onclick = function () {
@@ -150,17 +210,21 @@ resetBtn.onclick = function () {
 reactionBox.onclick = function () {
     if (gameStarted === false && canClick === false) {
         boxTitle.innerText = "Start first";
-        boxMessage.innerText = "Use the start button before clicking the test box";
+
+        boxMessage.innerText = "Use the start button before clicking the test box.";
+
         return;
     }
 
     if (waitingForGreen === true) {
         handleEarlyClick();
+
         return;
     }
 
     if (canClick === true) {
         handleValidClick();
+
         return;
     }
 };
