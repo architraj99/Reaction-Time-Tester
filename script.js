@@ -10,6 +10,10 @@ let bestTime = document.getElementById("bestTime");
 let attemptCount = document.getElementById("attemptCount");
 let averageTime = document.getElementById("averageTime");
 
+let historyList = document.getElementById("historyList");
+let clearHistoryBtn = document.getElementById("clearHistoryBtn");
+let emptyHistory = document.getElementById("emptyHistory");
+
 let gameStarted = false;
 let waitingForGreen = false;
 let canClick = false;
@@ -77,11 +81,9 @@ function calculateAverageScore() {
 
 function updateScoreBoard(reactionTime) {
     totalAttempts++;
-
     allScores.push(reactionTime);
 
     latestTime.innerText = reactionTime + " ms";
-
     attemptCount.innerText = totalAttempts;
 
     if (bestScore === null || reactionTime < bestScore) {
@@ -95,6 +97,26 @@ function updateScoreBoard(reactionTime) {
     averageTime.innerText = average + " ms";
 }
 
+function addResultToHistory(reactionTime) {
+    if (emptyHistory) {
+        emptyHistory.style.display = "none";
+    }
+
+    let historyItem = document.createElement("div");
+    historyItem.className = "history-item";
+
+    let leftText = document.createElement("span");
+    leftText.innerText = "Attempt " + totalAttempts;
+
+    let rightText = document.createElement("strong");
+    rightText.innerText = reactionTime + " ms";
+
+    historyItem.appendChild(leftText);
+    historyItem.appendChild(rightText);
+
+    historyList.prepend(historyItem);
+}
+
 function prepareGame() {
     clearRunningTimer();
 
@@ -106,9 +128,7 @@ function prepareGame() {
     endTime = 0;
 
     gameStatus.innerText = "Waiting";
-
     boxTitle.innerText = "Wait...";
-
     boxMessage.innerText = "Do not click yet. Wait until the box turns green.";
 
     setBoxWaiting();
@@ -122,15 +142,11 @@ function prepareGame() {
 
 function makeReadyState() {
     waitingForGreen = false;
-
     canClick = true;
-
     startTime = Date.now();
 
     gameStatus.innerText = "Click Now";
-
     boxTitle.innerText = "CLICK!";
-
     boxMessage.innerText = "Click the box as fast as possible.";
 
     setBoxReady();
@@ -144,9 +160,7 @@ function handleEarlyClick() {
     canClick = false;
 
     gameStatus.innerText = "Too Early";
-
     boxTitle.innerText = "Too Early!";
-
     boxMessage.innerText = "You clicked before the signal. Press start to try again.";
 
     setBoxError();
@@ -162,14 +176,25 @@ function handleValidClick() {
     canClick = false;
 
     gameStatus.innerText = "Finished";
-
     boxTitle.innerText = "Result";
-
     boxMessage.innerText = reactionTime + " ms";
 
     updateScoreBoard(reactionTime);
+    addResultToHistory(reactionTime);
 
     setBoxNormal();
+}
+
+function makeEmptyHistory() {
+    historyList.innerHTML = "";
+
+    let emptyBox = document.createElement("div");
+    emptyBox.className = "empty-history";
+    emptyBox.id = "emptyHistory";
+    emptyBox.innerText = "No reaction tests completed yet.";
+
+    historyList.appendChild(emptyBox);
+    emptyHistory = emptyBox;
 }
 
 function fullReset() {
@@ -187,16 +212,14 @@ function fullReset() {
     allScores = [];
 
     resetScreenText();
-
     setBoxNormal();
 
     latestTime.innerText = "-- ms";
-
     bestTime.innerText = "-- ms";
-
     attemptCount.innerText = "0";
-
     averageTime.innerText = "-- ms";
+
+    makeEmptyHistory();
 }
 
 startBtn.onclick = function () {
@@ -207,24 +230,24 @@ resetBtn.onclick = function () {
     fullReset();
 };
 
+clearHistoryBtn.onclick = function () {
+    makeEmptyHistory();
+};
+
 reactionBox.onclick = function () {
     if (gameStarted === false && canClick === false) {
         boxTitle.innerText = "Start first";
-
         boxMessage.innerText = "Use the start button before clicking the test box.";
-
         return;
     }
 
     if (waitingForGreen === true) {
         handleEarlyClick();
-
         return;
     }
 
     if (canClick === true) {
         handleValidClick();
-
         return;
     }
 };

@@ -38,7 +38,8 @@ body {
 
 .game-card,
 .stats-card,
-.info-card {
+.info-card,
+.history-card {
     background: rgb(0, 142, 224);
     border: 1px solid #00f114;
     border-radius: 12px;
@@ -104,7 +105,8 @@ button {
 }
 
 .stats-card h2,
-.info-card h2 {
+.info-card h2,
+.history-card h2 {
     margin-bottom: 10px;
 }
 
@@ -122,6 +124,39 @@ button {
 
 .stat-box strong {
     font-size: 18px;
+}
+
+.history-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+#clearHistoryBtn {
+    background: #ef4444;
+    color: white;
+    padding: 8px 12px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.empty-history {
+    color: #e06a6a;
+    font-size: 14px;
 }
 
 .info-item {
