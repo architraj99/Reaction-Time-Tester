@@ -1,24 +1,26 @@
-# Reaction-Time-Tester
+--------------------------------Reaction Time Tester---------------------------------------------------
 
-Reaction Time Tester is a simple and interactive web project that measures how quickly you can react when the screen changes color.
+Reaction Time Tester is a simple website MADEEE BY MEE !! where you can test how fast you can click.
 
-The goal is simple:
-Wait for the signal and click as fast as possible. The project calculates the reaction speed in milliseconds and keeps track of yourr performance.
+When you press the start button,,,,,,,,,,,,,,
+the box waits for a random time and then changes color.....After that you have to click as quickly as possible.
 
-## Features
+The website will show your reaction speed in milliseconds { ms }
 
-- Random reaction timer
-- Real time reaction speed calculation
-- Best score tracking
-- Average reaction time
-- Attempt counter
-- Result history section
-- Clear history option
-- Responsive layout for mobile and desktop
+-----------------------------------Features-----------------------------------------
 
-## How To Use
+-- Start and reset button
+-- Random wait time
+-- Reaction speed check
+-- Best score
+-- Average score
+-- Attempt counter
+-- Result history
+-- Mobile friendly layout
 
-1. Click the Start Test button
-2. Wait for the reaction box to turn green
-3. Click the box as quickly as possible
-4. View your reaction speed and score history
+------------------------------ How To Use----------------------------
+
+1. Press the Start Test button
+2. Wait for the box color to change to green color
+3. Click the box fast
+4. See your reaction result
